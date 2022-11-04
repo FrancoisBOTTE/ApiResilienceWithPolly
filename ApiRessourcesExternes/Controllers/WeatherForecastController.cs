@@ -24,9 +24,10 @@ namespace ApiRessourcesExternes.Controllers
         {
             Random random = new Random();
             var result = random.Next(0, 100);
-            
-            if (result>count)
+
+            if (result > count)
             {
+                _logger.LogInformation("HTTP 200 : OK...");
                 return Ok(Enumerable.Range(1, 5).Select(index => new WeatherForecast
                 {
                     Date = DateTime.Now.AddDays(index),
@@ -36,7 +37,10 @@ namespace ApiRessourcesExternes.Controllers
             .ToArray());
             }
             else
+            {
+                _logger.LogError("HTTP 500 : ERROR...");
                 return StatusCode(StatusCodes.Status500InternalServerError);
+            }
         }
     }
 }
