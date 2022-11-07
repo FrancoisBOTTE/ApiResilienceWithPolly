@@ -21,7 +21,11 @@ namespace ApiResilienceWithPolly.Controllers
             var client = new HttpClient();
 
             //var response = await client.GetAsync("https://localhost:7286/WeatherForecast/50");
-            var response = await _requestPolicies.HttpRetryPolicy.ExecuteAsync(() =>
+
+            //var response = await _requestPolicies.HttpWaitAndRetryPolicy.ExecuteAsync(() =>
+            // client.GetAsync("https://localhost:7286/WeatherForecast/50"));
+
+            var response = await _requestPolicies.HttpCircuitBreakerWithCheckStatePolicy.ExecuteAsync(() =>
              client.GetAsync("https://localhost:7286/WeatherForecast/50"));
 
             return response.IsSuccessStatusCode ? Ok() : StatusCode(StatusCodes.Status500InternalServerError);
